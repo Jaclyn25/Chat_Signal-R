@@ -1,0 +1,10 @@
+﻿global using Microsoft.AspNetCore.Identity;
+global using Chat_Website.Models.DataBase;
+global using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore;
+global using System.ComponentModel.DataAnnotations;
+global using Chat_Website.Data.ContextDB;
+global using Chat_Website.ViewModel.Account;
+global using Chat_Website.ViewModel.Chats;
+global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.SignalR;
