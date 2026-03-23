@@ -1,0 +1,17 @@
+﻿@{
+    ViewData["Title"] = "Welcome - ChatSecure";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center bg-white p-5 rounded shadow-sm border">
+            <h1 class="display-3 mb-4">ChatSecure</h1>
+            <p class="lead mb-4">A simple and secure way to connect with your contacts instantly.</p>
+            <hr class="my-4">
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg px-4 gap-3">Login</a>
+                <a asp-controller="Account" asp-action="Register" class="btn btn-outline-secondary btn-lg px-4">Create Account</a>
+            </div>
+        </div>
+    </div>
+</div>

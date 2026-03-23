@@ -1,0 +1,134 @@
+@model Chat_Website.Models.DataBase.UserApplication
+@{
+    ViewData["Title"] = "Account Settings";
+}
+
+<div class="container py-5 mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="glass-card p-4 p-md-5">
+                <div class="text-center mb-5">
+                    <h3 class="fw-bold mb-1" style="color: #1e293b; letter-spacing:-0.5px">Profile Settings</h3>
+                    <p class="text-muted small">Update your photo and account details</p>
+                </div>
+
+                <div class="avatar-upload-container text-center mb-5">
+                    <div class="avatar-preview-wrapper mx-auto mb-3 position-relative d-inline-block">
+                        <div class="avatar-clickable shadow-sm" onclick="document.getElementById('profileImage').click()" 
+                             style="width: 140px; height: 140px; border: 4px solid white; background:#f8fafc">
+                            @if (!string.IsNullOrEmpty(Model.ProfileImageUrl))
+                            {
+                                <img src="@Model.ProfileImageUrl" alt="Profile Image" class="profile-avatar-large" id="avatar-preview" />
+                            }
+                            else
+                            {
+                                <div class="profile-avatar-large d-flex align-items-center justify-content-center" id="avatar-preview" style="background:#f1f5f9">
+                                    <i class="bi bi-person-fill text-muted" style="font-size: 4rem;"></i>
+                                </div>
+                            }
+                            <div class="avatar-overlay">
+                                <i class="bi bi-camera-fill text-white fs-4"></i>
+                            </div>
+                        </div>
+                        <div class="position-absolute bottom-0 end-0 bg-primary rounded-circle d-flex align-items-center justify-content-center shadow" 
+                             style="width: 32px; height: 32px; border: 2px solid white;">
+                            <i class="bi bi-pencil-fill text-white" style="font-size: 0.8rem;"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <form asp-action="Profile" asp-controller="Settings" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+                    
+                    <input type="file" class="d-none" name="profileImage" id="profileImage" accept="image/*" onchange="previewImage(event)">
+                    
+                    <div class="mb-4">
+                        <label class="form-label small fw-bold text-uppercase text-muted" style="letter-spacing: 0.5px;">User Handle</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-0 ps-3 pe-1 rounded-start-3"><i class="bi bi-at text-muted"></i></span>
+                            <input type="text" class="form-control bg-light border-0 py-3 rounded-end-3" value="@Model.UserName" readonly />
+                        </div>
+                    </div>
+
+                    <div class="d-grid pt-2">
+                        <button type="submit" class="btn btn-modern-primary py-3">
+                            Save Changes
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            const file = event.target.files[0];
+            
+            if (file) {
+                reader.onload = function() {
+                    const preview = document.getElementById('avatar-preview');
+                    if (preview.tagName === 'IMG') {
+                        preview.src = reader.result;
+                    } else {
+                        const container = preview.parentElement;
+                        const img = document.createElement('img');
+                        img.id = 'avatar-preview';
+                        img.className = 'profile-avatar-large shadow-sm';
+                        img.src = reader.result;
+                        container.innerHTML = '';
+                        container.appendChild(img);
+                        
+                        const overlay = document.createElement('div');
+                        overlay.className = 'avatar-overlay';
+                        overlay.innerHTML = '<i class="bi bi-camera-fill text-white fs-4"></i>';
+                        container.appendChild(overlay);
+                    }
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    </script>
+}
+
+<style>
+    .profile-avatar-large {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .avatar-clickable {
+        cursor: pointer;
+        position: relative;
+        display: inline-block;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .avatar-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(15, 23, 42, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+
+    .avatar-clickable:hover .avatar-overlay {
+        opacity: 1;
+    }
+
+    .avatar-clickable:hover .profile-avatar-large {
+        transform: scale(1.05);
+    }
+</style>

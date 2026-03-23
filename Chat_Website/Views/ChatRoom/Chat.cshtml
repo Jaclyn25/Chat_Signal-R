@@ -1,0 +1,80 @@
+﻿@model Chat_Website.ViewModel.Chats.ChatRoomViewModel
+
+@{
+    ViewData["Title"] = Model.RoomTitle;
+}
+
+<div class="chat-container px-0 d-flex flex-column" style="background: #0f172a; height: 100vh; position: fixed; top: 0; left: 0; width: 100%; z-index: 2000;">
+    <!-- Chat Header (Fixed at top of container) -->
+    <div class="p-3 border-bottom border-secondary d-flex justify-content-between align-items-center sleek-header" style="background: #1e293b; flex-shrink: 0;">
+        <div class="d-flex align-items-center">
+            <div class="bg-indigo p-2 rounded-circle me-3" style="background:#6366f1; width:45px; height:45px; display:flex; align-items:center; justify-content:center; color: white;">
+                <i class="bi bi-person-fill"></i>
+            </div>
+            <div>
+                <h5 class="mb-0 text-white">@Model.RoomTitle</h5>
+                <small class="text-success" id="typingIndicator" style="display:none;"></small>
+                <small class="text-success" id="onlineStatus"><span class="status-dot"></span>Online</small>
+            </div>
+        </div>
+        <a asp-action="Index" asp-controller="ChatRoom" class="btn btn-outline-light btn-sm rounded-pill">
+            <i class="bi bi-chevron-left me-1"></i>Back
+        </a>
+    </div>
+
+    <!-- Messages Area (The ONLY scrollable part) -->
+    <div class="flex-grow-1 p-3 overflow-auto d-flex flex-column" id="messagesList" style="background: #0f172a; scroll-behavior: smooth;">
+        <div class="mt-auto"></div> <!-- Push messages to bottom if few -->
+        @foreach (var msg in Model.Messages)
+        {
+            var currentUserName = User.Identity?.Name ?? "";
+            var isCurrentUser = msg.UserName == currentUserName;
+            <div class="mb-3 d-flex @(isCurrentUser ? "justify-content-end" : "justify-content-start") w-100" id="msg-@msg.Id">
+                <div class="bubble @(isCurrentUser ? "bubble-mine shadow-lg" : "bubble-theirs shadow")">
+                    @if (!Model.IsPrivate && !isCurrentUser)
+                    {
+                        <div class="fw-bold small mb-1" style="color: #a855f7;">@msg.UserName</div>
+                    }
+
+                    <div class="message-content">@msg.Content</div>
+                    <div class="timestamp-text d-flex align-items-center justify-content-end mt-1">
+                        <span>@msg.Timestamp.ToString("HH:mm")</span>
+                        @if(isCurrentUser) { 
+                            <i class="bi @(msg.IsSeen ? "bi-check2-all text-info" : "bi-check2") ms-1 seen-icon" id="seen-@msg.Id"></i> 
+                        }
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <!-- Input Area (Fixed at bottom of container) -->
+    <div class="p-3 bg-dark border-top border-secondary" style="background: #1e293b !important; flex-shrink: 0;">
+        <div class="input-group bg-dark border-0 rounded-pill p-1 shadow-lg">
+            <input type="hidden" id="roomIdInput" value="@Model.RoomId" />
+            <input type="hidden" id="userInput" value="@(User.Identity?.Name ?? "")" />
+            
+            <button class="btn btn-link text-muted"><i class="bi bi-paperclip fs-5"></i></button>
+            <input type="text" id="messageInput" class="form-control border-0 bg-transparent text-white px-3" placeholder="Message..." autocomplete="off" />
+            <button class="btn btn-indigo rounded-circle p-0 send-btn-bounce" id="sendButton" style="width:45px; height:45px; background: var(--primary-gradient); color: white; border: none;">
+                <i class="bi bi-send-check-fill"></i>
+            </button>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/8.0.0/signalr.min.js"></script>
+
+    <script>
+        var isPrivateRoom = @Model.IsPrivate.ToString().ToLower();
+        
+        // Handle send button animation
+        document.getElementById('sendButton').addEventListener('click', function() {
+            this.classList.add('send-btn-bounce');
+            setTimeout(() => this.classList.remove('send-btn-bounce'), 300);
+        });
+    </script>
+
+    <script src="~/js/chat.js"></script>
+}

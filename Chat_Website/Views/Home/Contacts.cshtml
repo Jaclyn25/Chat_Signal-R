@@ -1,0 +1,50 @@
+@model List<UserApplication>
+
+@{
+    ViewData["Title"] = "My Contacts";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4">
+        <div class="col">
+            <h2>My Contacts</h2>
+        </div>
+    </div>
+
+    @if (Model == null || Model.Count == 0)
+    {
+        <div class="alert alert-info" role="alert">
+            No contacts available yet.
+        </div>
+    }
+    else
+    {
+        <div class="row">
+            @foreach (var user in Model)
+            {
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">@user.UserName</h5>
+                            <p class="card-text text-muted">
+                                <small>@user.Email</small>
+                            </p>
+                            @if (!string.IsNullOrEmpty(user.PhoneNumber))
+                            {
+                                <p class="card-text">
+                                    <small><strong>📞 @user.PhoneNumber</strong></small>
+                                </p>
+                            }
+                        </div>
+                        <div class="card-footer bg-white border-top">
+                            <a asp-action="PrivateChat" asp-controller="ChatRoom" asp-route-receiverId="@user.Id" 
+                               class="btn btn-primary btn-sm w-100">
+                                <i class="bi bi-chat-dots"></i> Message
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

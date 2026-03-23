@@ -1,0 +1,128 @@
+@using Chat_Website.ViewModel.Chats
+@model IEnumerable<ChatRoomViewModel>
+
+@{
+    ViewData["Title"] = "Chats";
+}
+
+<div class="container-fluid py-3" style="background: #f8fafc; min-height: calc(100vh - 120px);">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <!-- Search Bar -->
+            <div class="search-container mb-4">
+                <div class="input-group search-glass p-1">
+                    <span class="input-group-text border-0 bg-transparent ps-3">
+                        <i class="bi bi-search text-muted"></i>
+                    </span>
+                    <input type="text" class="form-control border-0 bg-transparent py-2" placeholder="Search conversations..." id="chatSearch">
+                </div>
+            </div>
+
+            <div class="chat-list-container">
+                @if (!Model.Any())
+                {
+                    <div class="text-center py-5">
+                        <div class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 80px; height: 80px;">
+                            <i class="bi bi-chat-dots text-muted fs-1"></i>
+                        </div>
+                        <h5 class="text-dark fw-bold">No Conversations Yet</h5>
+                        <p class="text-muted small">Go to <a asp-controller="Home" asp-action="Contacts" class="text-indigo text-decoration-none fw-bold">Contacts</a> to start a chat</p>
+                    </div>
+                }
+                else
+                {
+                    @foreach (var chat in Model.OrderByDescending(x => x.LastMessageTime))
+                    {
+                        <a asp-action="Chat" asp-route-id="@chat.RoomId" class="chat-item d-flex align-items-center text-decoration-none mb-2 p-3 fade-in">
+                            <div class="avatar-wrapper me-3">
+                                @if (!string.IsNullOrEmpty(chat.ProfileImageUrl))
+                                {
+                                    <img src="@chat.ProfileImageUrl" alt="@chat.RoomTitle" class="chat-avatar shadow-sm" />
+                                }
+                                else
+                                {
+                                    <div class="chat-avatar d-flex align-items-center justify-content-center group-avatar">
+                                        <i class="bi bi-people-fill text-white"></i>
+                                    </div>
+                                }
+                            </div>
+                            <div class="chat-info flex-grow-1 min-width-0">
+                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                    <h6 class="chat-name fw-bold mb-0 text-truncate">@chat.RoomTitle</h6>
+                                    <span class="chat-time">@chat.LastMessageTime.ToString("h:mm tt")</span>
+                                </div>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <p class="chat-preview mb-0 text-truncate">@chat.LastMessage</p>
+                                    @if(chat.UnreadCount > 0)
+                                    {
+                                        <span class="badge rounded-pill bg-indigo ms-2">@chat.UnreadCount</span>
+                                    }
+                                </div>
+                            </div>
+                        </a>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .search-glass {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+        border: 1px solid #e2e8f0;
+    }
+
+    .chat-item {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        transition: all 0.2s ease;
+        color: inherit;
+    }
+
+    .chat-item:hover {
+        background: #f1f5f9;
+        transform: translateY(-2px);
+        border-color: #cbd5e1;
+    }
+
+    .chat-avatar {
+        width: 54px;
+        height: 54px;
+        border-radius: 14px;
+        object-fit: cover;
+    }
+
+    .group-avatar {
+        background: #1e293b;
+        font-size: 1.5rem;
+    }
+
+    .chat-name {
+        color: #1e293b;
+        font-size: 1.05rem;
+        letter-spacing: -0.3px;
+    }
+
+    .chat-time {
+        font-size: 0.75rem;
+        color: #94a3b8;
+    }
+
+    .chat-preview {
+        font-size: 0.9rem;
+        color: #64748b;
+        max-width: 85%;
+    }
+
+    .bg-indigo {
+        background-color: #6366f1;
+    }
+
+    .text-indigo {
+        color: #6366f1;
+    }
+</style>

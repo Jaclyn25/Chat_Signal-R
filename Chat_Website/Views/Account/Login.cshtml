@@ -1,0 +1,69 @@
+﻿@model loginViewModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+<div class="auth-background d-flex align-items-center justify-content-center" style="min-height: 100vh; background: #f8fafc;">
+    <div class="glass-card shadow-lg p-4 p-md-5" style="max-width: 450px; width: 100%; border-radius: 24px; background: white; border: 1px solid #e2e8f0;">
+        <div class="text-center mb-5">
+            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 60px; height: 60px; background: #6366f1 !important;">
+                <i class="bi bi-shield-lock-fill text-white fs-2"></i>
+            </div>
+            <h2 class="fw-extrabold text-dark mb-1" style="letter-spacing: -1px; font-weight: 800;">Welcome Back</h2>
+            <p class="text-muted small px-4">Secure access to your real-time conversations</p>
+        </div>
+
+        <form asp-action="Login" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small"></div>
+
+            <div class="mb-4">
+                <label asp-for="Email" class="form-label small fw-bold text-uppercase text-muted mb-2" style="letter-spacing: 0.5px;">Email Address</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0 ps-3 pe-0 rounded-start-3">
+                        <i class="bi bi-envelope text-muted"></i>
+                    </span>
+                    <input asp-for="Email" class="form-control bg-light border-0 py-3 ps-3 rounded-end-3" placeholder="name@company.com" />
+                </div>
+                <span asp-validation-for="Email" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Password" class="form-label small fw-bold text-uppercase text-muted mb-2" style="letter-spacing: 0.5px;">Password</label>
+                <div class="input-group">
+                    <span class="input-group-text bg-light border-0 ps-3 pe-0 rounded-start-3">
+                        <i class="bi bi-lock text-muted"></i>
+                    </span>
+                    <input asp-for="Password" type="password" class="form-control bg-light border-0 py-3 ps-3 rounded-end-3" placeholder="••••••••" />
+                </div>
+                <span asp-validation-for="Password" class="text-danger small"></span>
+            </div>
+
+            <div class="mb-4 d-flex justify-content-between align-items-center">
+                <div class="form-check custom-checkbox">
+                    <input asp-for="RememberMe" class="form-check-input" style="cursor:pointer" />
+                    <label asp-for="RememberMe" class="form-check-label small text-muted" style="cursor:pointer">Keep me signed in</label>
+                </div>
+                <a href="#" class="small fw-semibold text-primary text-decoration-none">Forgot?</a>
+            </div>
+
+            <div class="d-grid mt-2">
+                <button type="submit" class="btn btn-modern-primary py-3 fw-bold shadow-sm">
+                    Sign In
+                </button>
+            </div>
+
+            <div class="mt-5 text-center">
+                <p class="text-muted small mb-0">
+                    New to ChatSecure? <a asp-action="Register" class="text-primary fw-bold text-decoration-none">Create Account</a>
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
