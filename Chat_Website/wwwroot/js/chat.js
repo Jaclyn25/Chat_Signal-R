@@ -1,13 +1,18 @@
 ﻿var connection = new signalR.HubConnectionBuilder()
     .withUrl("/chatHub")
     .build();
-connection.on("ReceiveMessage", function (user, message, time, messageId) {
+connection.on("ReceiveMessage", function (user, message, time, messageId, profileImageUrl) {
     var currentUser = document.getElementById("userInput").value;
     var roomId = document.getElementById("roomIdInput").value;
     var isMine = (user === currentUser);
     
+    var userInitial = user.charAt(0).toUpperCase();
+    var profileImageHtml = profileImageUrl 
+        ? `<img src="${profileImageUrl}" alt="${user}" class="rounded-circle me-2" style="width: 24px; height: 24px; object-fit: cover;" />`
+        : `<div class="rounded-circle me-2 d-flex align-items-center justify-content-center bg-indigo text-white fw-bold" style="width: 24px; height: 24px; font-size: 12px;">${userInitial}</div>`;
+    
     var nameHtml = (!isPrivateRoom && !isMine)
-        ? `<div class="fw-bold small mb-1 text-primary">${user}</div>`
+        ? `<div class="d-flex align-items-center mb-2">${profileImageHtml}<div class="fw-bold small text-primary">${user}</div></div>`
         : "";
 
     var msgHtml = `

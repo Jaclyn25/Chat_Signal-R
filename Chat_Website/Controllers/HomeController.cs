@@ -29,15 +29,6 @@ namespace Chat_Website.Controllers
             return View();
         }
 
-        public IActionResult Contacts()
-        {
-            var currentUserId = _userManager.GetUserId(User);
-            var users = _userManager.Users
-                .Where(u => u.Id != currentUserId)
-                .ToList();
-            return View(users);
-        }
-
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {

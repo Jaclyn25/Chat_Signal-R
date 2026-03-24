@@ -12,42 +12,12 @@
             var currentUser = await _userManager.GetUserAsync(User);
             if (currentUser == null) return Unauthorized();
 
-            // Fetch rooms where the current user is a member
-            var joinedRooms = _roomRepo.GetAll()
-                .Include(r => r.Users)
-                .Include(r => r.Messages)
-                .ThenInclude(m => m.UserApplication)
-                .Where(r => r.Users.Any(u => u.Id == currentUser.Id))
+            // Fetch all users except current user
+            var allUsers = _userManager.Users
+                .Where(u => u.Id != currentUser.Id)
                 .ToList();
 
-            var viewModels = new List<ChatRoomViewModel>();
-
-            foreach (var room in joinedRooms)
-            {
-                var lastMessage = room.Messages.OrderByDescending(m => m.Timestamp).FirstOrDefault();
-                string title = room.Title ?? "Group Chat";
-                string? avatarUrl = null;
-
-                // Handle Private Chat Title & Avatar
-                if (room.Users.Count == 2 && (room.Title?.Contains('_') ?? false))
-                {
-                    var otherUser = room.Users.FirstOrDefault(u => u.Id != currentUser.Id);
-                    title = otherUser?.UserName ?? "Private Chat";
-                    avatarUrl = otherUser?.ProfileImageUrl;
-                }
-
-                viewModels.Add(new ChatRoomViewModel
-                {
-                    RoomId = room.Id,
-                    RoomTitle = title,
-                    LastMessage = lastMessage?.Content ?? "No messages yet",
-                    LastMessageTime = lastMessage?.Timestamp ?? room.CreatedAt,
-                    ProfileImageUrl = avatarUrl,
-                    UnreadCount = 0 // Placeholder logic
-                });
-            }
-
-            return View(viewModels);
+            return View(allUsers);
         }
 
         [HttpGet]
@@ -84,7 +54,8 @@
                         Content = m.Content,
                         Timestamp = m.Timestamp,
                         UserId = m.UserApplicationId,
-                        IsSeen = m.IsSeen
+                        IsSeen = m.IsSeen,
+                        ProfileImageUrl = m.UserApplication!.ProfileImageUrl
                     })
             ];
 

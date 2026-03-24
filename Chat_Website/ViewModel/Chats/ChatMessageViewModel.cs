@@ -8,5 +8,6 @@
         public DateTime Timestamp { get; set; }
         public string? UserId { get; set; }
         public bool IsSeen { get; set; }
+        public string? ProfileImageUrl { get; set; }
     }
 }

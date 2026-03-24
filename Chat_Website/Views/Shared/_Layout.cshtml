@@ -70,10 +70,6 @@
                 <i class="bi bi-chat-text-fill"></i>
                 <span>Chats</span>
             </a>
-            <a class="bottom-nav-item @(ViewContext.RouteData.Values["action"]?.ToString() == "Contacts" ? "active" : "")" asp-controller="Home" asp-action="Contacts">
-                <i class="bi bi-people-fill"></i>
-                <span>Contacts</span>
-            </a>
             <a class="bottom-nav-item @(ViewContext.RouteData.Values["controller"]?.ToString() == "Settings" ? "active" : "")" asp-controller="Settings" asp-action="Profile">
                 <i class="bi bi-person-fill"></i>
                 <span>Profile</span>

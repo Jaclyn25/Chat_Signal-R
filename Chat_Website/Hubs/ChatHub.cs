@@ -13,6 +13,10 @@
             var userName = Context.User.Identity.Name;
             if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(userName))
                 return;
+            
+            var user = await _userManager.FindByIdAsync(userId);
+            var profileImageUrl = user?.ProfileImageUrl ?? "";
+            
             var chatMsg = new ChatMessage
             {
                 Content = message,
@@ -23,7 +27,7 @@
 
             _messageRepo.Add(chatMsg);
             _messageRepo.Save();
-            await Clients.Group(roomId).SendAsync("ReceiveMessage", userName, message, DateTime.Now.ToString("HH:mm"), chatMsg.Id);
+            await Clients.Group(roomId).SendAsync("ReceiveMessage", userName, message, DateTime.Now.ToString("HH:mm"), chatMsg.Id, profileImageUrl);
         }
 
         public async Task MarkAsSeen(int messageId, string roomId)
