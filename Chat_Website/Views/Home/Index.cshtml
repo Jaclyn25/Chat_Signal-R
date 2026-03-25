@@ -1,17 +1,415 @@
 ﻿@{
-    ViewData["Title"] = "Welcome - ChatSecure";
+    ViewData["Title"] = "Welcome - LinkUp";
 }
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8 text-center bg-white p-5 rounded shadow-sm border">
-            <h1 class="display-3 mb-4">ChatSecure</h1>
-            <p class="lead mb-4">A simple and secure way to connect with your contacts instantly.</p>
-            <hr class="my-4">
-            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
-                <a asp-controller="Account" asp-action="Login" class="btn btn-primary btn-lg px-4 gap-3">Login</a>
-                <a asp-controller="Account" asp-action="Register" class="btn btn-outline-secondary btn-lg px-4">Create Account</a>
-            </div>
+<style>
+    .splash-hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #F7F9FC 0%, #EFF2F5 100%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .splash-hero::before {
+        content: '';
+        position: absolute;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 70%);
+        border-radius: 50%;
+        top: -100px;
+        left: -50px;
+        animation: float 8s ease-in-out infinite;
+    }
+
+    .splash-hero::after {
+        content: '';
+        position: absolute;
+        width: 400px;
+        height: 400px;
+        background: radial-gradient(circle, rgba(139, 127, 255, 0.08) 0%, transparent 70%);
+        border-radius: 50%;
+        bottom: -50px;
+        right: -100px;
+        animation: float 10s ease-in-out infinite reverse;
+    }
+
+    @@keyframes float {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(30px); }
+    }
+
+    @@keyframes slideInUp {
+        from {
+            opacity: 0;
+            transform: translateY(40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @@keyframes slideInDown {
+        from {
+            opacity: 0;
+            transform: translateY(-40px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        text-align: center;
+        max-width: 700px;
+        animation: slideInUp 0.8s ease-out;
+    }
+
+    .hero-logo {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 30px;
+        background: linear-gradient(135deg, #6366F1 0%, #8B7FFF 100%);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 3rem;
+        color: white;
+        box-shadow: 0 8px 24px rgba(99, 102, 241, 0.3);
+        animation: slideInDown 0.8s ease-out;
+    }
+
+    .hero-title {
+        font-size: 3.5rem;
+        font-weight: 700;
+        font-family: 'Space Grotesk', sans-serif;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+        letter-spacing: -1px;
+        line-height: 1.1;
+    }
+
+    .hero-subtitle {
+        font-size: 1.25rem;
+        color: var(--text-secondary);
+        margin-bottom: 40px;
+        font-weight: 500;
+        max-width: 500px;
+        margin-left: auto;
+        margin-right: auto;
+        line-height: 1.6;
+    }
+
+    .hero-cta-buttons {
+        display: flex;
+        gap: 16px;
+        justify-content: center;
+        flex-wrap: wrap;
+        margin-bottom: 80px;
+    }
+
+    .btn-primary-hero {
+        padding: 14px 32px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        background: linear-gradient(135deg, #6366F1 0%, #8B7FFF 100%);
+        color: white;
+        border: none;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        display: inline-block;
+        font-family: 'Space Grotesk', sans-serif;
+        cursor: pointer;
+    }
+
+    .btn-primary-hero:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 28px rgba(99, 102, 241, 0.4);
+        color: white;
+        text-decoration: none;
+    }
+
+    .btn-secondary-hero {
+        padding: 14px 32px;
+        font-size: 1rem;
+        font-weight: 600;
+        border-radius: 12px;
+        background: white;
+        color: var(--primary);
+        border: 2px solid var(--border-color);
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: inline-block;
+        font-family: 'Space Grotesk', sans-serif;
+        cursor: pointer;
+    }
+
+    .btn-secondary-hero:hover {
+        border-color: var(--primary);
+        background: var(--primary);
+        color: white;
+        transform: translateY(-2px);
+        text-decoration: none;
+    }
+
+    /* Features Section */
+    .features-section {
+        padding: 100px 0;
+        background: white;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+        margin-top: 60px;
+    }
+
+    .feature-card {
+        padding: 40px 30px;
+        border-radius: 16px;
+        background: var(--bg-light);
+        border: 1px solid var(--border-light);
+        text-align: center;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
+
+    .feature-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 12px 32px rgba(99, 102, 241, 0.12);
+        border-color: var(--primary-lighter);
+    }
+
+    .feature-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 20px;
+        background: linear-gradient(135deg, #6366F1 0%, #8B7FFF 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.8rem;
+        color: white;
+    }
+
+    .feature-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 12px;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .feature-description {
+        color: var(--text-secondary);
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    /* Stats Section */
+    .stats-section {
+        padding: 80px 0;
+        background: linear-gradient(135deg, #6366F1 0%, #8B7FFF 100%);
+        color: white;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-number {
+        font-size: 2.5rem;
+        font-weight: 700;
+        font-family: 'Space Grotesk', sans-serif;
+        margin-bottom: 10px;
+    }
+
+    .stat-label {
+        font-size: 1rem;
+        opacity: 0.9;
+    }
+
+    /* CTA Final */
+    .final-cta {
+        padding: 80px 0;
+        text-align: center;
+        background: var(--bg-light);
+    }
+
+    .final-cta-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--text-primary);
+        margin-bottom: 20px;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .final-cta-text {
+        font-size: 1.1rem;
+        color: var(--text-secondary);
+        margin-bottom: 40px;
+    }
+
+    @@media (max-width: 768px) {
+        .hero-title {
+            font-size: 2.5rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+        }
+
+        .hero-cta-buttons {
+            flex-direction: column;
+        }
+
+        .btn-primary-hero, .btn-secondary-hero {
+            width: 100%;
+        }
+    }
+</style>
+
+<!-- Hero Section -->
+<div class="splash-hero">
+    <div class="hero-content">
+        <div class="hero-logo">
+            <i class="bi bi-shield-lock-fill"></i>
+        </div>
+        <h1 class="hero-title">LinkUp</h1>
+        <p class="hero-subtitle">
+            Connect with your contacts in a secure, encrypted environment. Fast, reliable, and completely private.
+        </p>
+        <div class="hero-cta-buttons">
+            <a asp-controller="Account" asp-action="Login" class="btn-primary-hero">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Login
+            </a>
+            <a asp-controller="Account" asp-action="Register" class="btn-secondary-hero">
+                <i class="bi bi-person-plus me-2"></i>Create Account
+            </a>
         </div>
     </div>
 </div>
+
+<!-- Features Section -->
+<section class="features-section">
+    <div class="container">
+        <div style="text-align: center; margin-bottom: 20px;">
+            <h2 style="font-size: 2.2rem; font-weight: 700; color: var(--text-primary); font-family: 'Space Grotesk', sans-serif; margin-bottom: 15px;">
+                Why Choose LinkUp?
+            </h2>
+            <p style="font-size: 1.1rem; color: var(--text-secondary);">
+                Everything you need for secure, instant communication
+            </p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+                <div class="feature-title">End-to-End Encrypted</div>
+                <div class="feature-description">
+                    Your messages are encrypted with military-grade security. Only you and your contacts can read them.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-lightning-charge"></i>
+                </div>
+                <div class="feature-title">Lightning Fast</div>
+                <div class="feature-description">
+                    Instant message delivery with real-time synchronization across all your devices.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-eye-slash"></i>
+                </div>
+                <div class="feature-title">Maximum Privacy</div>
+                <div class="feature-description">
+                    No data collection, no ads, no tracking. Your privacy is our top priority.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-people-fill"></i>
+                </div>
+                <div class="feature-title">Group Chats</div>
+                <div class="feature-description">
+                    Create secure group conversations with unlimited participants.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-image"></i>
+                </div>
+                <div class="feature-title">Share Media</div>
+                <div class="feature-description">
+                    Share photos, videos, and files securely. All encrypted end-to-end.
+                </div>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="bi bi-phone-vibrate"></i>
+                </div>
+                <div class="feature-title">Always Connected</div>
+                <div class="feature-description">
+                    Works on desktop and mobile. Stay connected wherever you are.
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Stats Section -->
+<section class="stats-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 stat-item mb-4 mb-md-0">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Active Users</div>
+            </div>
+            <div class="col-md-4 stat-item mb-4 mb-md-0">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">End-to-End Encrypted</div>
+            </div>
+            <div class="col-md-4 stat-item">
+                <div class="stat-number">0ms</div>
+                <div class="stat-label">No Data Logging</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA Section -->
+<section class="final-cta">
+    <div class="container">
+        <h2 class="final-cta-title">Ready to Chat Securely?</h2>
+        <p class="final-cta-text">Join thousands of users who trust LinkUp for their private communications</p>
+        <div class="hero-cta-buttons" style="justify-content: center;">
+            <a asp-controller="Account" asp-action="Register" class="btn-primary-hero">
+                <i class="bi bi-person-plus me-2"></i>Get Started Now
+            </a>
+            <a asp-controller="Account" asp-action="Login" class="btn-secondary-hero">
+                <i class="bi bi-box-arrow-in-right me-2"></i>Existing User? Sign In
+            </a>
+        </div>
+    </div>
+</section>

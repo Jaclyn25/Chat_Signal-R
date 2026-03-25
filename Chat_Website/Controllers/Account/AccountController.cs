@@ -1,8 +1,10 @@
 ﻿using Chat_Website.ViewModel.Account;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Chat_Website.Controllers.Account
 {
+    [Authorize]
     public class AccountController : Controller
     {
         private readonly UserManager<UserApplication> _userManager;
@@ -13,11 +15,13 @@ namespace Chat_Website.Controllers.Account
             _signInManager = signInManager;
         }
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Register()
         {
             return View("Register");
         }
         [HttpPost]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(registerViewModel registerView)
         {
             if (ModelState.IsValid)
@@ -42,11 +46,13 @@ namespace Chat_Website.Controllers.Account
             return View(registerView);
         }
         [HttpGet]
+        [AllowAnonymous]
         public IActionResult Login()
         {
             return View("Login");
         }
         [HttpPost]
+        [AllowAnonymous]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(loginViewModel loginViewModel)
         {
@@ -58,7 +64,7 @@ namespace Chat_Website.Controllers.Account
                     var result = await _signInManager.PasswordSignInAsync(user.UserName, loginViewModel.Password, loginViewModel.RememberMe, lockoutOnFailure: false);
                     if (result.Succeeded)
                     {
-                        return RedirectToAction("Contacts", "Home");
+                        return RedirectToAction("Index", "ChatRoom");
                     }
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");

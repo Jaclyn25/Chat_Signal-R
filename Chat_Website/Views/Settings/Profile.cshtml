@@ -8,50 +8,50 @@
         <div class="col-md-6 col-lg-5">
             <div class="glass-card p-4 p-md-5">
                 <div class="text-center mb-5">
-                    <h3 class="fw-bold mb-1" style="color: #1e293b; letter-spacing:-0.5px">Profile Settings</h3>
-                    <p class="text-muted small">Update your photo and account details</p>
+                    <h3 class="fw-bold mb-1" style="font-family: 'Space Grotesk', sans-serif; color: var(--text-primary); letter-spacing: -0.5px; font-size: 24px;">Profile Settings</h3>
+                    <p style="color: var(--text-muted); font-size: 14px;">Update your photo and account details</p>
                 </div>
 
                 <div class="avatar-upload-container text-center mb-5">
                     <div class="avatar-preview-wrapper mx-auto mb-3 position-relative d-inline-block">
-                        <div class="avatar-clickable shadow-sm" onclick="document.getElementById('profileImage').click()" 
-                             style="width: 140px; height: 140px; border: 4px solid white; background:#f8fafc">
+                        <div class="avatar-clickable" onclick="document.getElementById('profileImage').click()" 
+                             style="width: 140px; height: 140px; border: 4px solid white; background: var(--bg-light); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.15);">
                             @if (!string.IsNullOrEmpty(Model.ProfileImageUrl))
                             {
                                 <img src="@Model.ProfileImageUrl" alt="Profile Image" class="profile-avatar-large" id="avatar-preview" />
                             }
                             else
                             {
-                                <div class="profile-avatar-large d-flex align-items-center justify-content-center" id="avatar-preview" style="background:#f1f5f9">
-                                    <i class="bi bi-person-fill text-muted" style="font-size: 4rem;"></i>
+                                <div class="profile-avatar-large d-flex align-items-center justify-content-center" id="avatar-preview" style="background: var(--gradient-primary); color: white;">
+                                    <i class="bi bi-person-fill" style="font-size: 4rem;"></i>
                                 </div>
                             }
                             <div class="avatar-overlay">
-                                <i class="bi bi-camera-fill text-white fs-4"></i>
+                                <i class="bi bi-camera-fill" style="font-weight: 700; font-size: 1.5rem; color: white;"></i>
                             </div>
                         </div>
-                        <div class="position-absolute bottom-0 end-0 bg-primary rounded-circle d-flex align-items-center justify-content-center shadow" 
-                             style="width: 32px; height: 32px; border: 2px solid white;">
-                            <i class="bi bi-pencil-fill text-white" style="font-size: 0.8rem;"></i>
+                        <div class="position-absolute bottom-0 end-0 d-flex align-items-center justify-content-center" 
+                             style="width: 36px; height: 36px; border: 3px solid white; border-radius: 10px; background: var(--primary); box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);">
+                            <i class="bi bi-pencil-fill" style="font-size: 0.9rem; font-weight: 700; color: white;"></i>
                         </div>
                     </div>
                 </div>
 
                 <form asp-action="Profile" asp-controller="Settings" method="post" enctype="multipart/form-data">
-                    <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+                    <div asp-validation-summary="ModelOnly" style="color: #EF4444; font-size: 13px; margin-bottom: 16px;"></div>
                     
                     <input type="file" class="d-none" name="profileImage" id="profileImage" accept="image/*" onchange="previewImage(event)">
                     
                     <div class="mb-4">
-                        <label class="form-label small fw-bold text-uppercase text-muted" style="letter-spacing: 0.5px;">User Handle</label>
-                        <div class="input-group">
-                            <span class="input-group-text bg-light border-0 ps-3 pe-1 rounded-start-3"><i class="bi bi-at text-muted"></i></span>
-                            <input type="text" class="form-control bg-light border-0 py-3 rounded-end-3" value="@Model.UserName" readonly />
+                        <label class="form-label" style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 8px;">User Handle</label>
+                        <div class="input-group rounded-lg" style="border: 1.5px solid var(--border-color);">
+                            <span class="input-group-text" style="background: transparent; border: none; color: var(--text-muted);"><i class="bi bi-at"></i></span>
+                            <input type="text" class="form-control border-0" style="color: var(--text-primary); background: transparent;" value="@Model.UserName" readonly />
                         </div>
                     </div>
 
                     <div class="d-grid pt-2">
-                        <button type="submit" class="btn btn-modern-primary py-3">
+                        <button type="submit" class="btn btn-modern-primary py-3" style="font-weight: 600; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.3px;">
                             Save Changes
                         </button>
                     </div>
@@ -83,7 +83,7 @@
                         
                         const overlay = document.createElement('div');
                         overlay.className = 'avatar-overlay';
-                        overlay.innerHTML = '<i class="bi bi-camera-fill text-white fs-4"></i>';
+                        overlay.innerHTML = '<i class="bi bi-camera-fill text-dark fs-4" style="font-weight: 700;"></i>';
                         container.appendChild(overlay);
                     }
                 }
@@ -97,7 +97,7 @@
     .profile-avatar-large {
         width: 100%;
         height: 100%;
-        border-radius: 50%;
+        border-radius: 16px;
         object-fit: cover;
         transition: transform 0.3s ease;
     }
@@ -106,8 +106,13 @@
         cursor: pointer;
         position: relative;
         display: inline-block;
-        border-radius: 50%;
+        border-radius: 16px;
         overflow: hidden;
+        transition: all 0.2s ease;
+    }
+
+    .avatar-clickable:hover {
+        box-shadow: 0 8px 20px rgba(99, 102, 241, 0.2);
     }
 
     .avatar-overlay {
@@ -116,12 +121,13 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background: rgba(15, 23, 42, 0.4);
+        background: rgba(31, 41, 55, 0.6);
         display: flex;
         align-items: center;
         justify-content: center;
         opacity: 0;
         transition: opacity 0.2s ease;
+        border-radius: 16px;
     }
 
     .avatar-clickable:hover .avatar-overlay {

@@ -7,55 +7,57 @@
 
 <style>
     .contacts-container {
-        background: #0f172a;
+        background: #F8F9FA;
         min-height: 100vh;
         padding: 0;
     }
 
     .contacts-header {
-        background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
-        color: white;
+        background: #FFFFFF;
+        color: #2C3E50;
         padding: 24px;
         position: sticky;
         top: 60px;
         z-index: 100;
-        box-shadow: 0 4px 20px rgba(99, 102, 241, 0.15);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        border-bottom: 1px solid #E8E8E8;
     }
 
     .contacts-header h2 {
         margin: 0;
         font-weight: 700;
         font-size: 24px;
+        color: #2C3E50;
     }
 
     .search-container {
         padding: 16px 20px;
-        background: #1e293b;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        background: #F8F9FA;
+        border-bottom: 1px solid #E8E8E8;
     }
 
     .search-input {
-        background: rgba(255, 255, 255, 0.1);
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        color: white;
+        background: #FFFFFF;
+        border: 1px solid #E8E8E8;
+        color: #2C3E50;
         border-radius: 24px;
         padding: 10px 16px;
         font-size: 14px;
     }
 
     .search-input::placeholder {
-        color: rgba(255, 255, 255, 0.5);
+        color: #95A5A6;
     }
 
     .search-input:focus {
         outline: none;
-        background: rgba(255, 255, 255, 0.15);
-        border-color: rgba(99, 102, 241, 0.5);
-        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        background: #FFFFFF;
+        border-color: #B0B0B0;
+        box-shadow: 0 0 0 3px rgba(208, 208, 208, 0.1);
     }
 
     .contacts-list {
-        background: #0f172a;
+        background: #F8F9FA;
         list-style: none;
         padding: 0;
         margin: 0;
@@ -65,26 +67,26 @@
         display: flex;
         align-items: center;
         padding: 16px 20px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        border-bottom: 1px solid #E8E8E8;
         cursor: pointer;
         transition: background 0.2s ease;
         text-decoration: none;
-        color: white;
+        color: #2C3E50;
     }
 
     .contact-item:hover {
-        background: rgba(99, 102, 241, 0.1);
+        background: #F0F0F0;
     }
 
     .contact-avatar {
         width: 56px;
         height: 56px;
         border-radius: 50%;
-        background: linear-gradient(135deg, #6366f1 0%, #818cf8 100%);
+        background: linear-gradient(135deg, #E0E0E0 0%, #D0D0D0 100%);
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: #2C3E50;
         font-weight: bold;
         font-size: 20px;
         margin-right: 16px;
@@ -108,12 +110,12 @@
         font-weight: 600;
         font-size: 15px;
         margin-bottom: 6px;
-        color: white;
+        color: #2C3E50;
     }
 
     .contact-phone {
         font-size: 13px;
-        color: #94a3b8;
+        color: #95A5A6;
         display: flex;
         align-items: center;
     }
@@ -127,11 +129,11 @@
         width: 44px;
         height: 44px;
         border-radius: 50%;
-        background: #6366f1;
+        background: #D0D0D0;
         display: flex;
         align-items: center;
         justify-content: center;
-        color: white;
+        color: #2C3E50;
         transition: all 0.2s ease;
         margin-left: 12px;
         flex-shrink: 0;
@@ -140,9 +142,9 @@
     }
 
     .contact-action:hover {
-        background: #818cf8;
+        background: #B0B0B0;
         transform: scale(1.05);
-        color: white;
+        color: #2C3E50;
     }
 
     .contact-action i {
@@ -174,7 +176,7 @@
 <div class="contacts-container">
     <!-- Header -->
     <div class="contacts-header">
-        <h2><i class="bi bi-chat-dots-fill me-2"></i>Messages</h2>
+        <h2 style="font-family: 'Poppins', sans-serif; font-weight: 700; letter-spacing: -0.5px; color: #1a1a1a;"><i class="bi bi-chat-dots-fill me-2" style="color: #1a1a1a;"></i>Messages</h2>
     </div>
 
     <!-- Search Bar -->
@@ -198,7 +200,7 @@
                 var userInitial = user.UserName?.FirstOrDefault().ToString().ToUpper() ?? "?";
                 <li class="contact-item" data-name="@user.UserName?.ToLower() ?? ''">
                     <!-- Avatar -->
-                    <div class="contact-avatar">
+                    <div class="contact-avatar" style="color: #1a1a1a; font-weight: 700;">
                         @if (!string.IsNullOrEmpty(user.ProfileImageUrl))
                         {
                             <img src="@user.ProfileImageUrl" alt="@user.UserName" />
@@ -211,10 +213,10 @@
 
                     <!-- Contact Info -->
                     <div class="contact-info">
-                        <div class="contact-name">@user.UserName</div>
+                        <div class="contact-name" style="font-family: 'Poppins', sans-serif; font-weight: 700; letter-spacing: 0.2px;">@user.UserName</div>
                         @if (!string.IsNullOrEmpty(user.PhoneNumber))
                         {
-                            <div class="contact-phone">
+                            <div class="contact-phone" style="font-weight: 500; font-family: 'Segoe UI', sans-serif;">
                                 <i class="bi bi-telephone-fill"></i>
                                 @user.PhoneNumber
                             </div>
@@ -223,7 +225,7 @@
 
                     <!-- Message Button -->
                     <a asp-action="PrivateChat" asp-controller="ChatRoom" asp-route-receiverId="@user.Id" 
-                       class="contact-action" title="Send Message">
+                       class="contact-action" title="Send Message" style="color: #1a1a1a; font-weight: 700;">
                         <i class="bi bi-chat-dots-fill"></i>
                     </a>
                 </li>

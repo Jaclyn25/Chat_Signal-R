@@ -1,5 +1,8 @@
-﻿namespace Chat_Website.Controllers.Chat
+﻿using Microsoft.AspNetCore.Authorization;
+
+namespace Chat_Website.Controllers.Chat
 {
+    [Authorize]
     public class ChatRoomController(IRepostriy<ChatRoom> roomRepo, IRepostriy<ChatMessage> messageRepo, UserManager<UserApplication> userManager) : Controller
     {
         private readonly IRepostriy<ChatRoom> _roomRepo = roomRepo;

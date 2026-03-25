@@ -48,9 +48,11 @@ namespace Chat_Website
 
             app.UseRouting();
 
-            app.UseSession();
-
+            app.UseAuthentication();
+            
             app.UseAuthorization();
+            
+            app.UseSession();
             app.MapHub<ChatHub>("/chatHub");
             app.MapControllerRoute(
                 name: "default",

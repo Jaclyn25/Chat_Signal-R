@@ -4,58 +4,58 @@
     ViewData["Title"] = "Login";
 }
 
-<div class="auth-background d-flex align-items-center justify-content-center" style="min-height: 100vh; background: #f8fafc;">
-    <div class="glass-card shadow-lg p-4 p-md-5" style="max-width: 450px; width: 100%; border-radius: 24px; background: white; border: 1px solid #e2e8f0;">
+<div class="auth-background d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="glass-card shadow-lg p-4 p-md-5" style="max-width: 450px; width: 100%;">
         <div class="text-center mb-5">
-            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3 shadow-sm" style="width: 60px; height: 60px; background: #6366f1 !important;">
+            <div class="rounded-lg d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px; background: var(--gradient-primary) !important; box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);">
                 <i class="bi bi-shield-lock-fill text-white fs-2"></i>
             </div>
-            <h2 class="fw-extrabold text-dark mb-1" style="letter-spacing: -1px; font-weight: 800;">Welcome Back</h2>
-            <p class="text-muted small px-4">Secure access to your real-time conversations</p>
+            <h2 class="fw-bold mb-1" style="font-family: 'Space Grotesk', sans-serif; font-size: 28px; letter-spacing: -0.5px; color: var(--text-primary);">Welcome Back</h2>
+            <p style="color: var(--text-muted); font-size: 14px; padding: 0 16px; margin: 0;">Secure access to your real-time conversations</p>
         </div>
 
         <form asp-action="Login" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small"></div>
+            <div asp-validation-summary="ModelOnly" style="color: #EF4444; margin-bottom: 16px; font-size: 13px;"></div>
 
             <div class="mb-4">
-                <label asp-for="Email" class="form-label small fw-bold text-uppercase text-muted mb-2" style="letter-spacing: 0.5px;">Email Address</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light border-0 ps-3 pe-0 rounded-start-3">
-                        <i class="bi bi-envelope text-muted"></i>
+                <label asp-for="Email" class="form-label" style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 8px;">Email Address</label>
+                <div class="input-group rounded-lg" style="border: 1.5px solid var(--border-color);">
+                    <span class="input-group-text" style="background: transparent; border: none; color: var(--text-muted);">
+                        <i class="bi bi-envelope"></i>
                     </span>
-                    <input asp-for="Email" class="form-control bg-light border-0 py-3 ps-3 rounded-end-3" placeholder="name@company.com" />
+                    <input asp-for="Email" class="form-control border-0" style="color: var(--text-primary);" placeholder="name@company.com" />
                 </div>
-                <span asp-validation-for="Email" class="text-danger small"></span>
+                <span asp-validation-for="Email" style="color: #EF4444; font-size: 12px;"></span>
             </div>
 
             <div class="mb-4">
-                <label asp-for="Password" class="form-label small fw-bold text-uppercase text-muted mb-2" style="letter-spacing: 0.5px;">Password</label>
-                <div class="input-group">
-                    <span class="input-group-text bg-light border-0 ps-3 pe-0 rounded-start-3">
-                        <i class="bi bi-lock text-muted"></i>
+                <label asp-for="Password" class="form-label" style="font-size: 12px; font-weight: 600; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px; margin-bottom: 8px;">Password</label>
+                <div class="input-group rounded-lg" style="border: 1.5px solid var(--border-color);">
+                    <span class="input-group-text" style="background: transparent; border: none; color: var(--text-muted);">
+                        <i class="bi bi-lock"></i>
                     </span>
-                    <input asp-for="Password" type="password" class="form-control bg-light border-0 py-3 ps-3 rounded-end-3" placeholder="••••••••" />
+                    <input asp-for="Password" type="password" class="form-control border-0" style="color: var(--text-primary);" placeholder="••••••••" />
                 </div>
-                <span asp-validation-for="Password" class="text-danger small"></span>
+                <span asp-validation-for="Password" style="color: #EF4444; font-size: 12px;"></span>
             </div>
 
             <div class="mb-4 d-flex justify-content-between align-items-center">
-                <div class="form-check custom-checkbox">
-                    <input asp-for="RememberMe" class="form-check-input" style="cursor:pointer" />
-                    <label asp-for="RememberMe" class="form-check-label small text-muted" style="cursor:pointer">Keep me signed in</label>
+                <div class="form-check">
+                    <input asp-for="RememberMe" class="form-check-input" style="cursor:pointer; border-color: var(--border-color);" />
+                    <label asp-for="RememberMe" class="form-check-label" style="cursor:pointer; color: var(--text-muted); font-size: 14px;">Keep me signed in</label>
                 </div>
-                <a href="#" class="small fw-semibold text-primary text-decoration-none">Forgot?</a>
+                <a href="#" class="" style="font-size: 13px; font-weight: 600; color: var(--primary); text-decoration: none;">Forgot?</a>
             </div>
 
             <div class="d-grid mt-2">
-                <button type="submit" class="btn btn-modern-primary py-3 fw-bold shadow-sm">
+                <button type="submit" class="btn btn-modern-primary py-3" style="font-weight: 600; font-family: 'Space Grotesk', sans-serif; letter-spacing: 0.3px;">
                     Sign In
                 </button>
             </div>
 
             <div class="mt-5 text-center">
-                <p class="text-muted small mb-0">
-                    New to ChatSecure? <a asp-action="Register" class="text-primary fw-bold text-decoration-none">Create Account</a>
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 0;">
+                    New to LinkUp? <a asp-action="Register" style="color: var(--primary); font-weight: 600; text-decoration: none; transition: all 0.2s;" onmouseover="this.style.textDecoration='underline'" onmouseout="this.style.textDecoration='none'">Create Account</a>
                 </p>
             </div>
         </form>

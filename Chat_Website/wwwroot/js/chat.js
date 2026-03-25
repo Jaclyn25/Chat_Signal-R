@@ -22,7 +22,7 @@ connection.on("ReceiveMessage", function (user, message, time, messageId, profil
                 <div class="message-content">${message}</div>
                 <div class="timestamp-text d-flex align-items-center justify-content-end mt-1">
                     <span>${time}</span>
-                    ${isMine ? `<i class="bi bi-check2 ms-1 seen-icon" id="seen-${messageId}"></i>` : ""}
+                    ${isMine ? `<i class="bi bi-check2-all ms-1 seen-icon" id="seen-${messageId}" style="color: #0084FF;"></i>` : ""}
                 </div>
             </div>
         </div>`;
